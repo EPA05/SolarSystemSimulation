@@ -12,7 +12,6 @@ public class Sun {
     this.p = p;
     radius = r;
     mass = 10e30;
-    ;
     position = new PVector(p.width / 2, p.height / 2); // Position of the sun is in the center of the screen
   }
 
