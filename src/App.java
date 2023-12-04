@@ -9,16 +9,19 @@ public class App extends PApplet {
     }
 
     public void settings() {
-        size(1600, 900);
+        size(1600, 900, P2D);
         sm = new ScreenManager(this);
     }
 
     public void setup() {
         background(0);
-        frameRate(24);
+        frameRate(60);
+        surface.setResizable(true);
     }
 
     public void draw() {
         sm.run();
+        System.out.println(frameRate);
+
     }
 }

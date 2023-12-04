@@ -25,7 +25,7 @@ public class Planet {
     distance = d;
     colour = c;
     pixelDistance = (p.height) / 4.5179e12; // Calculate the distance of one pixel in meter
-    timeConstant = (60 * 60 * 24) / 24; // Calculate the time constant to speed up the simulation
+    timeConstant = (int) ((60 * 60 * 24) / p.frameRate); // Calculate the time constant to speed up the simulation
     acceleration = new PVector(0, 0);
     velocity = new PVector(0, 0);
     position = new PVector((float) (p.width / 2 + distance * pixelDistance), (float) (p.height / 2));// Calculate the
