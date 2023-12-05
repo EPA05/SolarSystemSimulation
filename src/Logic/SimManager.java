@@ -43,13 +43,19 @@ public class SimManager {
     p.background(0);
     sun.show();
 
-    // Loop that runs through all the planets
-    for (Planet planet : planets) {
-      PVector force = sun.attract(planet);
-      planet.applyForce(force);
-      planet.update();
-      planet.show();
+    // Loop that runs through all the planets and their gravitational force from the
+    // sun and other planets
+    for (int i = 0; i < planets.length; i++) {
+      for (int j = 0; j < planets.length; j++) {
+        if (i != j) {
+          PVector force = planets[j].attract(planets[i]);
+          planets[i].applyForce(force);
+        }
+      }
+      PVector force = sun.attract(planets[i]);
+      planets[i].applyForce(force);
+      planets[i].update();
+      planets[i].show();
     }
-
   }
 }

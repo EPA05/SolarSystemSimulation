@@ -52,14 +52,23 @@ public class Planet {
 
   void update() {
     velocity(sun);
-
     velocity.add(PVector.mult(acceleration, timeConstant)); // Add the acceleration to the velocity
     position.add(PVector.mult(velocity, timeConstant)); // Add the velocity to the position
     acceleration.mult(0); // Reset the acceleration so it doesn't accumulate
+
   }
 
   void show() {
     p.fill(colour); // Set the colour of the planet
     p.circle(position.x, position.y, 8); // Draw the planet
+  }
+
+  PVector attract(Planet planet) {
+    PVector force = PVector.sub(position, planet.position); // Calculate the direction of the force
+    double distance = force.mag() / planet.pixelDistance; // Distance between objects
+    force.normalize();
+    double GravitationalForce = (G * mass * planet.mass) / (distance * distance); // Calculate the gravitational force
+    force.mult((float) GravitationalForce); // Apply the force
+    return force;
   }
 }
