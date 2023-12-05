@@ -42,6 +42,7 @@ public class SimManager {
   public void run() {
     p.background(0);
     sun.show();
+    text();
 
     // Loop that runs through all the planets and their gravitational force from the
     // sun and other planets
@@ -56,6 +57,37 @@ public class SimManager {
       planets[i].applyForce(force);
       planets[i].update();
       planets[i].show();
+    }
+  }
+
+  void text() {
+    p.fill(255);
+    p.textSize(20);
+    for (Planet planet : planets) {
+      if (planet == planets[0]) {
+        p.text("Mercury velocity: " + planet.getVelocity() + " km/s", 150, 20);
+      }
+      if (planet == planets[1]) {
+        p.text("Venus velocity: " + planet.getVelocity() + " km/s", 150, 40);
+      }
+      if (planet == planets[2]) {
+        p.text("Earth velocity: " + planet.getVelocity() + " km/s", 150, 60);
+      }
+      if (planet == planets[3]) {
+        p.text("Mars velocity: " + planet.getVelocity() + " km/s", 150, 80);
+      }
+      if (planet == planets[4]) {
+        p.text("Jupiter velocity: " + planet.getVelocity() + " km/s", 150, 100);
+      }
+      if (planet == planets[5]) {
+        p.text("Saturn velocity: " + planet.getVelocity() + " km/s", 150, 120);
+      }
+      if (planet == planets[6]) {
+        p.text("Uranus velocity: " + planet.getVelocity() + " km/s", 150, 140);
+      }
+      if (planet == planets[7]) {
+        p.text("Neptune velocity: " + planet.getVelocity() + " km/s", 150, 160);
+      }
     }
   }
 }

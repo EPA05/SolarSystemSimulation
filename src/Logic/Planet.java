@@ -34,22 +34,6 @@ public class Planet {
 
   }
 
-  void velocity(Sun sun) {
-    double orbitalSpeed = Math.sqrt((G * sun.mass) / (distance)); // Calculate the orbital speed of the planet
-    PVector directionToSun = PVector.sub(sun.position, position); // Vector from planet to sun
-    directionToSun.normalize(); // Normalize to get a unit vector
-    PVector VelocityDirection = directionToSun.rotate(PConstants.HALF_PI); // Rotate 90 degrees to get a
-    // perpendicular
-    velocity = VelocityDirection.mult((float) orbitalSpeed); // Calculate the velocity of the planet
-    velocity.mult((float) pixelDistance); // Convert velocity from m/s to pixels/s
-  }
-
-  void applyForce(PVector force) {
-    PVector acc = PVector.div(force, (float) mass); // Calculate the acceleration
-    acceleration.add(acc); // Add the acceleration to the acceleration vector
-    acceleration.mult((float) pixelDistance); // Convert acceleration from m/s^2 to pixels/s^2
-  }
-
   void update() {
     velocity(sun);
     velocity.add(PVector.mult(acceleration, timeConstant)); // Add the acceleration to the velocity
@@ -63,6 +47,26 @@ public class Planet {
     p.circle(position.x, position.y, 8); // Draw the planet
   }
 
+  void velocity(Sun sun) {
+    if (velocity.mag() == 0) { // Check if velocity has already been calculated
+      double orbitalSpeed = Math.sqrt((G * sun.mass) / (distance)); // Calculate the orbital speed of the planet
+      PVector directionToSun = PVector.sub(sun.position, position); // Vector from planet to sun
+      directionToSun.normalize(); // Normalize to get a unit vector
+      PVector VelocityDirection = directionToSun.rotate(PConstants.HALF_PI); // Rotate 90 degrees to get a
+      // perpendicular
+      velocity = VelocityDirection.mult((float) orbitalSpeed); // Calculate the velocity of the planet
+      velocity.mult((float) pixelDistance); // Convert velocity from m/s to pixels/s
+    }
+  }
+
+  void applyForce(PVector force) {
+    PVector acc = PVector.div(force, (float) mass); // Calculate the acceleration
+    acceleration.add(acc); // Add the acceleration to the acceleration vector
+    acceleration.mult((float) pixelDistance); // Convert acceleration from m/s^2 to pixels/s^2
+    // acceleration.rotate(PConstants.HALF_PI); // Rotate 90 degrees to get a
+    // perpendicular
+  }
+
   PVector attract(Planet planet) {
     PVector force = PVector.sub(position, planet.position); // Calculate the direction of the force
     double distance = force.mag() / planet.pixelDistance; // Distance between objects
@@ -70,5 +74,9 @@ public class Planet {
     double GravitationalForce = (G * mass * planet.mass) / (distance * distance); // Calculate the gravitational force
     force.mult((float) GravitationalForce); // Apply the force
     return force;
+  }
+
+  int getVelocity() {
+    return (int) (velocity.mag() / pixelDistance);
   }
 }
