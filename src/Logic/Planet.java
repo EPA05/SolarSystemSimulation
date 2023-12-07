@@ -15,7 +15,6 @@ public class Planet {
   double GravitationalForce; // Gravitational force between the planet and the sun
   int timeConstant; // Time constant to speed up the simulation
   PVector acceleration; // Acceleration of the planet
-
   final double G = 6.67428e-11; // Gravitational constant
 
   public Planet(PApplet p, double m, double d, int c, Sun sun) {
@@ -25,7 +24,8 @@ public class Planet {
     distance = d;
     colour = c;
     pixelDistance = (p.height) / 4.5179e12; // Calculate the distance of one pixel in meter
-    timeConstant = (int) ((60 * 60 * 24) / p.frameRate); // Calculate the time constant to speed up the simulation
+    timeConstant = (int) ((60 * 60 * 24) / p.frameRate); // Calculate the time constant to speed up the simulation to 1
+                                                         // day per second
     acceleration = new PVector(0, 0);
     velocity = new PVector(0, 0);
     position = new PVector((float) (p.width / 2 + distance * pixelDistance), (float) (p.height / 2));// Calculate the
@@ -45,6 +45,7 @@ public class Planet {
   void show() {
     p.fill(colour); // Set the colour of the planet
     p.circle(position.x, position.y, 8); // Draw the planet
+
   }
 
   void velocity(Sun sun) {
@@ -63,8 +64,6 @@ public class Planet {
     PVector acc = PVector.div(force, (float) mass); // Calculate the acceleration
     acceleration.add(acc); // Add the acceleration to the acceleration vector
     acceleration.mult((float) pixelDistance); // Convert acceleration from m/s^2 to pixels/s^2
-    // acceleration.rotate(PConstants.HALF_PI); // Rotate 90 degrees to get a
-    // perpendicular
   }
 
   PVector attract(Planet planet) {
@@ -76,6 +75,7 @@ public class Planet {
     return force;
   }
 
+  // Function to get the velocity of the planet
   int getVelocity() {
     return (int) (velocity.mag() / pixelDistance);
   }

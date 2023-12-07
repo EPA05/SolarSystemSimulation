@@ -16,7 +16,6 @@ public class App extends PApplet {
     public void setup() {
         background(0);
         frameRate(60);
-        surface.setResizable(true);
     }
 
     public void draw() {

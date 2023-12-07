@@ -1,17 +1,18 @@
 package Logic;
 
-import processing.core.PApplet;
-import processing.core.PVector;
+import processing.core.*;
 
 public class SimManager {
   Planet[] planets;
   PApplet p;
   Sun sun;
   Planet mercury;
+  TimeSlider timeSlider;
 
   public SimManager(PApplet p) {
     this.p = p;
     sun = new Sun(p, 10, mercury);
+    timeSlider = new TimeSlider(p);
     planets = new Planet[8];
 
     // Mercury
@@ -43,20 +44,24 @@ public class SimManager {
     p.background(0);
     sun.show();
     text();
+    timeSlider.show();
+    timeSlider.update();
 
     // Loop that runs through all the planets and their gravitational force from the
     // sun and other planets
-    for (int i = 0; i < planets.length; i++) {
-      for (int j = 0; j < planets.length; j++) {
-        if (i != j) {
-          PVector force = planets[j].attract(planets[i]);
-          planets[i].applyForce(force);
+    for (int p = 0; p < timeSlider.getTime(); p++) {
+      for (int i = 0; i < planets.length; i++) {
+        for (int j = 0; j < planets.length; j++) {
+          if (i != j) {
+            PVector force = planets[j].attract(planets[i]);
+            planets[i].applyForce(force);
+          }
         }
+        PVector force = sun.attract(planets[i]);
+        planets[i].applyForce(force);
+        planets[i].update();
+        planets[i].show();
       }
-      PVector force = sun.attract(planets[i]);
-      planets[i].applyForce(force);
-      planets[i].update();
-      planets[i].show();
     }
   }
 
@@ -65,29 +70,30 @@ public class SimManager {
     p.textSize(20);
     for (Planet planet : planets) {
       if (planet == planets[0]) {
-        p.text("Mercury velocity: " + planet.getVelocity() + " km/s", 150, 20);
+        p.text("Mercury velocity: " + planet.getVelocity() + " m/s", 150, 20);
       }
       if (planet == planets[1]) {
-        p.text("Venus velocity: " + planet.getVelocity() + " km/s", 150, 40);
+        p.text("Venus velocity: " + planet.getVelocity() + " m/s", 150, 40);
       }
       if (planet == planets[2]) {
-        p.text("Earth velocity: " + planet.getVelocity() + " km/s", 150, 60);
+        p.text("Earth velocity: " + planet.getVelocity() + " m/s", 150, 60);
       }
       if (planet == planets[3]) {
-        p.text("Mars velocity: " + planet.getVelocity() + " km/s", 150, 80);
+        p.text("Mars velocity: " + planet.getVelocity() + " m/s", 150, 80);
       }
       if (planet == planets[4]) {
-        p.text("Jupiter velocity: " + planet.getVelocity() + " km/s", 150, 100);
+        p.text("Jupiter velocity: " + planet.getVelocity() + " m/s", 150, 100);
       }
       if (planet == planets[5]) {
-        p.text("Saturn velocity: " + planet.getVelocity() + " km/s", 150, 120);
+        p.text("Saturn velocity: " + planet.getVelocity() + " m/s", 150, 120);
       }
       if (planet == planets[6]) {
-        p.text("Uranus velocity: " + planet.getVelocity() + " km/s", 150, 140);
+        p.text("Uranus velocity: " + planet.getVelocity() + " m/s", 150, 140);
       }
       if (planet == planets[7]) {
-        p.text("Neptune velocity: " + planet.getVelocity() + " km/s", 150, 160);
+        p.text("Neptune velocity: " + planet.getVelocity() + " m/s", 150, 160);
       }
     }
   }
+
 }
