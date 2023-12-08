@@ -1,6 +1,7 @@
 package ScreenClasses.Screens;
 
 import ScreenClasses.Screen;
+import ScreenClasses.ScreenManager;
 import processing.core.*;
 import Logic.SimManager;
 import Logic.GraphClasses.GraphManager;
@@ -10,7 +11,7 @@ public class Simulation extends Screen {
   private SimManager simManager;
   // private GraphManager graphManager;
 
-  public Simulation(PApplet p) {
+  public Simulation(PApplet p, ScreenManager sm) {
     this.p = p;
     simManager = new SimManager(p);
     // graphManager = new GraphManager(p);

@@ -1,6 +1,6 @@
 package ScreenClasses;
 
-import ScreenClasses.Screens.Simulation;
+import ScreenClasses.Screens.StartMenu;
 import processing.core.*;
 
 public class ScreenManager {
@@ -9,10 +9,14 @@ public class ScreenManager {
 
   public ScreenManager(PApplet p) {
     this.p = p;
-    s = new Simulation(this.p);
+    s = new StartMenu(p, this);
   }
 
   public void run() {
     s.update();
+  }
+
+  public void setScreen(Screen s) {
+    this.s = s;
   }
 }
