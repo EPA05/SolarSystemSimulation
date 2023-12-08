@@ -96,11 +96,11 @@ public class Graph {
     if (!graphCalculated) {
       graphShape = p.createShape();
       graphShape.beginShape();
-      for (r = (float) 3.685e10; r < 4.5179e12; r += 1e9) {
+      for (r = (float) 3.685e10; r < 5.2359e12; r += 1e9) {
         v = (float) (Math.sqrt((G * sun.mass) / r)) / 1000;
         float rInAu = (float) (r / 1.496e11);
         float mappedV = PApplet.map(v, 0, 60, 0, graphHeight - 2 * distanceFromEdge);
-        float mappedR = PApplet.map(rInAu, 0, 35, 0, graphWidth - distanceFromEdge);
+        float mappedR = PApplet.map(rInAu, 0, 35, 0, graphWidth - 2 * distanceFromEdge);
         graphShape.vertex(mappedR, -mappedV);
       }
       graphShape.endShape();
