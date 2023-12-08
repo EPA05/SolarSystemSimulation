@@ -3,10 +3,11 @@ package Logic;
 import processing.core.*;
 
 public class Planet {
+
   PApplet p;
   Sun sun;
   public double mass; // Mass of the planet in kg
-  double distance; // Distance from the sun in m
+  public double distance; // Distance from the sun in m
   double startVelocity;
   int colour; // Colour of the planet
   public double pixelDistance; // Costant to convert distance from m to pixels
@@ -76,7 +77,14 @@ public class Planet {
   }
 
   // Function to get the velocity of the planet
-  int getVelocity() {
+  public int getVelocity() {
     return (int) (velocity.mag() / pixelDistance);
+  }
+
+  public int getAverageVelocity() {
+    int totalVelocity = 0; // Initialize totalVelocity variable
+    totalVelocity += getVelocity();
+    int averageVelocity = totalVelocity / p.frameCount / 1000;
+    return averageVelocity;
   }
 }
