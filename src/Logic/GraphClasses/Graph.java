@@ -2,7 +2,6 @@ package Logic.GraphClasses;
 
 import processing.core.*;
 import Logic.Planet;
-import Logic.SimManager;
 import Logic.Sun;
 
 public class Graph {
@@ -16,6 +15,8 @@ public class Graph {
   int distanceFromEdge;
   int borderWidth;
   final double G = 6.67428e-11;
+  float v;
+  float r;
 
   public Graph(PApplet p, Sun sun) {
     this.p = p;
@@ -85,24 +86,30 @@ public class Graph {
     p.noStroke();
   }
 
-  public void drawGraph(Sun sun) {
+  private boolean graphCalculated = false;
+  private PShape graphShape;
 
-    // Draw the graph line based on the function v(r) = sqrt((G*M)*r^2)
-    p.stroke(255, 255, 0); // Set stroke color to yellow
+  public void drawGraph(Sun sun) {
+    p.stroke(255, 0, 255); // Set stroke color to magenta
     p.noFill();
-    p.beginShape();
-    p.pushMatrix();
-    p.translate(graphX + distanceFromEdge, graphY + graphHeight + distanceFromEdge);
-    for (float r = 0; r < 4.5179e12; r += 1e6) {
-      float v = (float) Math.sqrt((G * sun.mass) / Math.pow(r, 2));
-      v = v / 1000; // Convert velocity from m/s to km/s
-      float x = (float) (r / 4.5179e12);
-      float y = graphY - distanceFromEdge + v;
-      p.vertex(x, y);
-      System.out.println(v);
+
+    if (!graphCalculated) {
+      graphShape = p.createShape();
+      graphShape.beginShape();
+      for (r = (float) 3.685e10; r < 4.5179e12; r += 1e9) {
+        v = (float) (Math.sqrt((G * sun.mass) / r)) / 1000;
+        float rInAu = (float) (r / 1.496e11);
+        float mappedV = PApplet.map(v, 0, 60, 0, graphHeight - 2 * distanceFromEdge);
+        float mappedR = PApplet.map(rInAu, 0, 35, 0, graphWidth - distanceFromEdge);
+        graphShape.vertex(mappedR, -mappedV);
+      }
+      graphShape.endShape();
+      graphCalculated = true;
     }
+    p.pushMatrix();
+    p.translate(graphX + distanceFromEdge, graphY + graphHeight - distanceFromEdge);
+    p.shape(graphShape);
     p.popMatrix();
-    p.endShape();
     p.noStroke();
   }
 }

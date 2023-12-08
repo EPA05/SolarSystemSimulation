@@ -51,7 +51,7 @@ public class SimManager {
     timeSlider.show();
     timeSlider.update();
     graph.drawVelocityGraph();
-    // graph.drawGraph(sun);
+    graph.drawGraph(sun);
 
     // Loop that runs through all the planets and their gravitational force from the
     // sun and other planets
