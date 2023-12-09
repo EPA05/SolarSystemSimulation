@@ -10,11 +10,12 @@ public class GraphManager {
 
   public GraphManager(PApplet p) {
     this.p = p;
+    this.sun = new Sun(p, 0, null);
     graph = new Graph(p, sun);
   }
 
   public void draw() {
-    graph.drawVelocityGraph();
+    graph.drawGraphBackground();
     graph.drawGraph(sun);
   }
 

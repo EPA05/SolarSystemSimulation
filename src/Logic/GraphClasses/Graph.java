@@ -18,20 +18,28 @@ public class Graph {
   float v;
   float r;
 
+  float[] planetDistances = { 0.39f, 0.72f, 1.0f, 1.52f, 5.20f, 9.58f, 19.18f, 30.07f }; // in AU
+  float[] planetVelocities = { 47.36f, 35.02f, 29.78f, 24.07f, 13.07f, 9.68f, 6.80f, 5.43f }; // Observed velocity in
+                                                                                              // km/s
+  int[] planetColours;
+
   public Graph(PApplet p, Sun sun) {
     this.p = p;
     this.sun = sun;
-    graphWidth = 500;
+    graphWidth = 600;
     graphHeight = 400;
     graphX = 20;
     graphY = 20;
-    distanceFromEdge = 60;
+    distanceFromEdge = 80;
     borderWidth = 2;
+
+    planetColours = new int[] {
+        p.color(112, 128, 144), p.color(255, 198, 73), p.color(0, 0, 255),
+        p.color(156, 46, 53), p.color(176, 127, 53), p.color(253, 229, 34),
+        p.color(178, 214, 219), p.color(142, 195, 195) }; // Colours of the planets
   }
 
-  public void drawVelocityGraph() {
-    // Set up the graph parameters
-
+  public void drawGraphBackground() {
     // Draw the graph background
     p.fill(0, 200);
     p.rect(graphX, graphY, graphWidth, graphHeight);
@@ -44,11 +52,12 @@ public class Graph {
 
     // Draw the x-axis
     p.stroke(255, 0, 0); // Set stroke color to red
-    p.line(graphX + distanceFromEdge, graphY + graphHeight - distanceFromEdge, graphX + graphWidth - distanceFromEdge,
+    p.line(graphX + distanceFromEdge, graphY + graphHeight - distanceFromEdge,
+        graphX + graphWidth - distanceFromEdge,
         graphY + graphHeight - distanceFromEdge);
     p.fill(255);
     p.textSize(20);
-    p.text("Distance [AU]", graphX + graphWidth / 2, graphY + graphHeight - 10);
+    p.text("Distance [AU]", graphWidth / 2 - 30, graphY + graphHeight - 30);
 
     // Draw the y-axis
     p.stroke(0, 0, 255); // Set stroke color to blue
@@ -80,8 +89,7 @@ public class Graph {
     for (int i = 0; i < numHorizontalLines; i++) {
       float y = graphY + graphHeight - distanceFromEdge - i * horizontalLineSpacing;
       p.line(graphX + distanceFromEdge, y, graphX + distanceFromEdge - 5, y);
-      p.text((i * 10) + " km/s", graphX + distanceFromEdge - 50, y + 5); // Add text at each line
-
+      p.text((i * 10) + " km/s", graphX + distanceFromEdge - 55, y + 5); // Add text at each line
     }
     p.noStroke();
   }
@@ -109,7 +117,19 @@ public class Graph {
     p.pushMatrix();
     p.translate(graphX + distanceFromEdge, graphY + graphHeight - distanceFromEdge);
     p.shape(graphShape);
+    drawRealVelocities();
     p.popMatrix();
     p.noStroke();
+  }
+
+  public void drawRealVelocities() {
+    for (int i = 0; i < planetDistances.length; i++) {
+      float mappedR = PApplet.map(planetDistances[i], 0, 35, 0, graphWidth - 2 * distanceFromEdge);
+      float mappedV = PApplet.map(planetVelocities[i], 0, 60, 0, graphHeight - 2 * distanceFromEdge);
+      p.stroke(planetColours[i]);
+      p.fill(planetColours[i]);
+      p.ellipse(mappedR, -mappedV, 5, 5); // Draw a circle with a diameter of 10
+      p.noStroke();
+    }
   }
 }
