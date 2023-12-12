@@ -86,12 +86,17 @@ public class Planet {
   }
 
   // Method to calculate the orbital period of the planet
-  public int getOrbitalPeriodInDays() {
-    int orbitalPeriod = (int) (2 * Math.PI * Math.sqrt((Math.pow(distance, 3)) / (G * sun.mass)) / (60 * 60 * 24));
-    return orbitalPeriod;
+  public String getOrbitalPeriodInDays() {
+    double orbitalPeriodInDays = 2 * Math.PI * Math.sqrt((Math.pow(distance, 3)) / (G * sun.mass))
+        / (60 * 60 * 24);
+    String formattedorbitalPeriodInDays = String.format("%.2f", orbitalPeriodInDays);
+    return formattedorbitalPeriodInDays;
   }
 
-  public int getOrbitalPeriodInYears() {
-    return getOrbitalPeriodInDays() / 365;
+  public String getOrbitalPeriodInYears() {
+    float orbitalPeriodInYears = Float.parseFloat(getOrbitalPeriodInDays()) / 365;
+    String formattedOrbitalPeriodInYears = String.format("%.2f", orbitalPeriodInYears);
+
+    return formattedOrbitalPeriodInYears;
   }
 }

@@ -4,7 +4,7 @@ import ScreenClasses.Screens.StartMenu;
 import processing.core.*;
 
 public class ScreenManager {
-  private PApplet p;
+  PApplet p;
   private Screen s;
 
   public ScreenManager(PApplet p) {

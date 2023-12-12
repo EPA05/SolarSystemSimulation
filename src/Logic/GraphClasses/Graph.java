@@ -1,6 +1,7 @@
 package Logic.GraphClasses;
 
 import processing.core.*;
+
 import Logic.Planet;
 import Logic.Sun;
 
@@ -17,15 +18,18 @@ public class Graph {
   final double G = 6.67428e-11;
   float v;
   float r;
+  float deviation;
 
-  float[] planetDistances = { 0.39f, 0.72f, 1.0f, 1.52f, 5.20f, 9.58f, 19.18f, 30.07f }; // in AU
-  float[] planetVelocities = { 47.36f, 35.02f, 29.78f, 24.07f, 13.07f, 9.68f, 6.80f, 5.43f }; // Observed velocity in
-                                                                                              // km/s
+  float[] planetDistances = { 0.387098f, 0.723332f, 1.0f, 1.52368055f, 5.2038f, 9.5826f, 19.19126f, 30.07f }; // in AU
+  float[] planetVelocities = { 47.36f, 35.02f, 29.7827f, 24.07f, 13.07f, 9.68f, 6.80f, 5.43f }; // Observed velocity in
+  // km/s
   int[] planetColours;
+  String[] planetNames = { "Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune" };
 
-  public Graph(PApplet p, Sun sun) {
+  public Graph(PApplet p, Sun sun, Planet planet) {
     this.p = p;
     this.sun = sun;
+    this.planet = planet;
     graphWidth = 600;
     graphHeight = 400;
     graphX = 20;
@@ -134,14 +138,38 @@ public class Graph {
   }
 
   public void graphinformation() {
+    float[] deviations = calculateDeviation();
     p.textSize(15);
-    String[] planetNames = { "Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune" };
+
     int yOffset = 90;
     for (int i = 0; i < planetNames.length; i++) {
+      String formattedDeviation = String.format("%.2f", deviations[i]);
+
       p.fill(planetColours[i]);
-      p.circle(graphX + graphWidth - 120, graphY + yOffset - 5, 5);
-      p.text(planetNames[i], graphX + graphWidth - 100, graphY + yOffset);
+      p.circle(graphX + graphWidth - 200, graphY + yOffset - 70, 5);
+      p.text(planetNames[i] + " deviation: " + formattedDeviation + "%", graphX + graphWidth - 180,
+          graphY + yOffset - 65);
       yOffset += 20;
     }
+  }
+
+  public float[] getGraphVelocitiesAtPlanetDistances() {
+    float[] graphVelocities = new float[planetDistances.length];
+    for (int i = 0; i < planetDistances.length; i++) {
+      float rInMeters = planetDistances[i] * 1.496e11f; // Convert distance from AU to meters
+      float v = (float) (Math.sqrt((G * sun.mass) / rInMeters)) / 1000; // Calculate velocity in km/s
+      graphVelocities[i] = v;
+    }
+    return graphVelocities;
+  }
+
+  public float[] calculateDeviation() {
+    float[] deviations = new float[planetVelocities.length];
+    for (int i = 0; i < planetVelocities.length; i++) {
+
+      deviations[i] = (getGraphVelocitiesAtPlanetDistances()[i] - planetVelocities[i])
+          / planetVelocities[i] * 100;
+    }
+    return deviations;
   }
 }

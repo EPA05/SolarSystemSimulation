@@ -4,7 +4,6 @@ import ScreenClasses.Screen;
 import ScreenClasses.ScreenManager;
 import processing.core.*;
 import Logic.SimManager;
-import Logic.GraphClasses.GraphManager;
 
 public class Simulation extends Screen {
   PApplet p;
