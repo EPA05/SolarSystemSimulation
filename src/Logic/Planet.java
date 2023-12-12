@@ -69,7 +69,7 @@ public class Planet {
 
   PVector attract(Planet planet) {
     PVector force = PVector.sub(position, planet.position); // Calculate the direction of the force
-    distance = force.mag() / planet.pixelDistance; // Distance between objects
+    double distance = force.mag() / planet.pixelDistance; // Distance between objects
     force.normalize();
     double GravitationalForce = (G * mass * planet.mass) / (distance * distance); // Calculate the gravitational force
     force.mult((float) GravitationalForce); // Apply the force

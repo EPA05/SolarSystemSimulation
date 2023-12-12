@@ -17,6 +17,7 @@ public class GraphManager {
   public void draw() {
     graph.drawGraphBackground();
     graph.drawGraph(sun);
+    graph.graphinformation();
   }
 
 }

@@ -132,4 +132,16 @@ public class Graph {
       p.noStroke();
     }
   }
+
+  public void graphinformation() {
+    p.textSize(15);
+    String[] planetNames = { "Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune" };
+    int yOffset = 90;
+    for (int i = 0; i < planetNames.length; i++) {
+      p.fill(planetColours[i]);
+      p.circle(graphX + graphWidth - 120, graphY + yOffset - 5, 5);
+      p.text(planetNames[i], graphX + graphWidth - 100, graphY + yOffset);
+      yOffset += 20;
+    }
+  }
 }
