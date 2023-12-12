@@ -6,6 +6,7 @@ public class Planet {
 
   PApplet p;
   Sun sun;
+  TimeSlider timeSlider;
   public double mass; // Mass of the planet in kg
   public double distance; // Distance from the sun in m
   double startVelocity;
@@ -40,7 +41,6 @@ public class Planet {
     velocity.add(PVector.mult(acceleration, timeConstant)); // Add the acceleration to the velocity
     position.add(PVector.mult(velocity, timeConstant)); // Add the velocity to the position
     acceleration.mult(0); // Reset the acceleration so it doesn't accumulate
-
   }
 
   void show() {
@@ -69,7 +69,7 @@ public class Planet {
 
   PVector attract(Planet planet) {
     PVector force = PVector.sub(position, planet.position); // Calculate the direction of the force
-    double distance = force.mag() / planet.pixelDistance; // Distance between objects
+    distance = force.mag() / planet.pixelDistance; // Distance between objects
     force.normalize();
     double GravitationalForce = (G * mass * planet.mass) / (distance * distance); // Calculate the gravitational force
     force.mult((float) GravitationalForce); // Apply the force
@@ -81,10 +81,13 @@ public class Planet {
     return (int) (velocity.mag() / pixelDistance);
   }
 
-  public int getAverageVelocity() {
-    int totalVelocity = 0; // Initialize totalVelocity variable
-    totalVelocity += getVelocity();
-    int averageVelocity = totalVelocity / p.frameCount / 1000;
-    return averageVelocity;
+  // Method to calculate the orbital period of the planet
+  public int getOrbitalPeriodInDays() {
+    int orbitalPeriod = (int) (2 * Math.PI * Math.sqrt((Math.pow(distance, 3)) / (G * sun.mass)) / (60 * 60 * 24));
+    return orbitalPeriod;
+  }
+
+  public int getOrbitalPeriodInYears() {
+    return getOrbitalPeriodInDays() / 365;
   }
 }

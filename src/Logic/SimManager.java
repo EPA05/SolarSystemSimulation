@@ -69,6 +69,7 @@ public class SimManager {
         planets[i].show();
       }
     }
+    orbitalPeriodText();
   }
 
   void text() {
@@ -129,4 +130,34 @@ public class SimManager {
 
   }
 
+  void orbitalPeriodText() {
+    p.fill(255);
+    p.textSize(20);
+    for (Planet planet : planets) {
+      if (planet == planets[0]) {
+        p.text("Mercury orbitalperiod : " + planet.getOrbitalPeriodInDays() + " days", 30, p.height - 170);
+      }
+      if (planet == planets[1]) {
+        p.text("Venus orbitalperiod : " + planet.getOrbitalPeriodInDays() + " days", 30, p.height - 150);
+      }
+      if (planet == planets[2]) {
+        p.text("Earth orbitalperiod : " + planet.getOrbitalPeriodInDays() + " days", 30, p.height - 130);
+      }
+      if (planet == planets[3]) {
+        p.text("Mars orbitalperiod : " + planet.getOrbitalPeriodInDays() + " days", 30, p.height - 110);
+      }
+      if (planet == planets[4]) {
+        p.text("Jupiter orbitalperiod : " + planet.getOrbitalPeriodInYears() + " years", 30, p.height - 90);
+      }
+      if (planet == planets[5]) {
+        p.text("Saturn orbitalperiod : " + planet.getOrbitalPeriodInYears() + " years", 30, p.height - 70);
+      }
+      if (planet == planets[6]) {
+        p.text("Uranus orbitalperiod : " + planet.getOrbitalPeriodInYears() + " years", 30, p.height - 50);
+      }
+      if (planet == planets[7]) {
+        p.text("Neptune orbitalperiod : " + planet.getOrbitalPeriodInYears() + " years", 30, p.height - 30);
+      }
+    }
+  }
 }
