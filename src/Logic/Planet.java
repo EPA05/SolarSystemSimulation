@@ -9,30 +9,35 @@ public class Planet {
   TimeSlider timeSlider;
   public double mass; // Mass of the planet in kg
   public double distance; // Distance from the sun in m
-  double startVelocity;
+  double radius; // Radius of the planet
+  double startVelocity; // Start velocity of the planet
   int colour; // Colour of the planet
   public double pixelDistance; // Costant to convert distance from m to pixels
   public PVector position; // Position of the planet
   public PVector velocity; // Velocity of the planet
   double GravitationalForce; // Gravitational force between the planet and the sun
   int timeConstant; // Time constant to speed up the simulation
+  double planetSizeCostant; // Costant to convert planet size from km to pixels
   PVector acceleration; // Acceleration of the planet
   final double G = 6.67428e-11; // Gravitational constant
 
-  public Planet(PApplet p, double m, double d, int c, Sun sun) {
+  public Planet(PApplet p, double m, double d, double r, int c, Sun sun) {
     this.p = p;
     this.sun = sun;
     mass = m;
     distance = d;
+    radius = r;
     colour = c;
-    pixelDistance = (p.height) / 4.5179e12; // Calculate the distance of one pixel in meter
+    pixelDistance = (p.height / 2) / 4.5179e12; // Calculate the distance of one pixel in meter
     timeConstant = (int) ((60 * 60 * 24) / p.frameRate); // Calculate the time constant to speed up the simulation to 1
                                                          // day per second
+    planetSizeCostant = (double) 3 / 4880; // Constant based on the smallest planet which has a radius of 3 pixel and a
+    // radius of 4880 km
     acceleration = new PVector(0, 0);
     velocity = new PVector(0, 0);
-    position = new PVector((float) (p.width / 2 + distance * pixelDistance), (float) (p.height / 2));// Calculate the
-                                                                                                     // start position
-                                                                                                     // of the planet
+    position = new PVector((float) (p.width / 2 + distance * pixelDistance), p.height / 2);// Calculate the
+                                                                                           // start position
+                                                                                           // of the planet
 
   }
 
@@ -45,8 +50,7 @@ public class Planet {
 
   void show() {
     p.fill(colour); // Set the colour of the planet
-    p.circle(position.x, position.y, 8); // Draw the planet
-
+    p.circle(position.x, position.y, (float) (radius * planetSizeCostant)); // Draw the planet
   }
 
   void velocity(Sun sun) {
